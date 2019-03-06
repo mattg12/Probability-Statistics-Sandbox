@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import scipy.stats as stats
 
 # define a single instance of the game
-def st_petersburg_game(price):
+def st_petersburg(price):
 	pot = 2
 	price = price
 	coin = 'heads'
@@ -19,38 +19,41 @@ def st_petersburg_game(price):
 			heads +=1
 		else:
 			coin = 'tails'
-	profit = pot - price
-	return heads
+    profits = pot - price
+	return heads, profit
 
-# Multiverse - demonstrate a number of possible outcomes
-def st_petersburg_casino_demo():
+# Simulation - demonstrate a number of possible outcomes
+def st_petersburg_simulation():
 	price = int(input("What price? "))
-	bets = [st_petersburg_game(price) for i in range(1000000)]
+	_,bets = [st_petersburg(price) for i in range(10000)]
 	max_win = max(bets)
 	min_win= min(bets)
 	print("Max Profit: {} \nMin Profit: {} \n".format(max_win,min_win))
 	print(stats.describe(bets))
 	plt.hist(bets)
+    plt.title("Simulation of 10000 trials of St. Petersburg Game")
+    plt.ylabel("Profits")
+    plt.xlabel("Number of Observations")
 	plt.show()
 
-# Single Universe - play the game repeatedly
-def st_petersburg_casino_real(player_bank = 100, casino_bank = 100000000):
+# Demonstration - play the game repeatedly
+def st_petersburg_game(player_bank = 100, casino_bank = 100000000):
     price = int(input("How much will you pay to play? "))
-    strategy = input("play a game or let it ride? ")
+    strategy = input("play one game [p] or let it ride [r]? ")
     num_games = 0
 
-    if strategy == 'play a game':
+    if strategy == 'p':
     	while player_bank >  0 and casino_bank > 0:
-    		game = input("Play? ")
-    		if game == 'yes':
-        		player_bank += st_petersburg_game(price)
-        		casino_bank -= st_petersburg_game(price)
+    		game = input("Play? [y]/[n]")
+    		if game == 'y':
+        		player_bank += st_petersburg(price)
+        		casino_bank -= st_petersburg(price)
         		num_games +=1
         		print("Player bank: {} \nCasinoBank: {} \nGames: {}".format(player_bank,casino_bank,num_games))
-    elif strategy == 'let it ride':
+    elif strategy == 'r':
         while player_bank > 0 and casino_bank > 0:
-        	player_bank += st_petersburg_game(price)
-        	casino_bank -= st_petersburg_game(price)
+        	player_bank += st_petersburg(price)
+        	casino_bank -= st_petersburg(price)
         	num_games += 1
 
     if player_bank <= 0:
@@ -60,10 +63,10 @@ def st_petersburg_casino_real(player_bank = 100, casino_bank = 100000000):
 
 # Prompt user to see a demo or play a game
 def choose_adventure():
-    user = input("Are you a gambler or a nerd? ")
-    if user == 'gambler':
-    	st_petersburg_casino_real()
-    elif user == 'nerd':
-    	st_petersburg_casino_demo()
+    choice = input("Choose: Game [g] or Simulation [s]? ")
+    if choice == 'g':
+    	st_petersburg_game()
+    elif choice == 's':
+    	st_petersburg_simulation()
 
 choose_adventure()
