@@ -1,17 +1,18 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 """
 Random Walk
 Created on Wed Mar  6 15:48:58 2019
 
-@author: mattg
+Matthew Garton
+
+adapted from Module in 'Dynamic Hedging'
 """
 
 import numpy as np
 import pandas as pd
 import math
 import matplotlib.pyplot as plt
-from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+#from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 from statsmodels.tsa.arima_model import ARIMA
 from statsmodels.tsa.stattools import adfuller
 
@@ -42,13 +43,14 @@ df = pd.DataFrame({'Day':range(days),'Asset_Price':prices})
 
 df['Returns'] = df['Asset_Price'].diff()
 
+"""
 plt.figure(figsize=(10,7))
 
 plt.hist(df['Returns'], bins=20)
 plt.title('Distribution of Returns', fontsize=18)
 
 ax = plot_acf(df['Asset_Price'], zero=False)
-
+"""
 df.index = pd.DatetimeIndex(start='2012-01-01', periods=df.shape[0], freq='D')
 
 
