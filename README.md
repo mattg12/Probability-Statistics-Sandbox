@@ -6,5 +6,5 @@ The goal of these 'mini-projects' is to experiment with concepts in probability 
 
 ## Contents
 * [St. Petersburg Paradox](https://github.com/mattg12/Probability-Statistics-Sandbox/blob/master/StPetersburg.py)
-* [Random Walks]()
+* [Random Walks](https://github.com/mattg12/Probability-Statistics-Sandbox/blob/master/Random%20Walk.ipynb)
 * [Implied Volatility]()
