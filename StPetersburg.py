@@ -31,7 +31,8 @@ def st_petersburg_simulation():
     min_win= min(bets)
     print(f"Max Profit: {max_win} \nMin Profit: {min_win} \n")
     print(stats.describe(bets))
-    plt.hist(bets, bins=20)
+    plt.figure(figsize=(10,7))
+    plt.hist(bets, bins=30)
     plt.title("Simulation of 10000 trials of St. Petersburg Game")
     plt.ylabel("Profits")
     plt.xlabel("Number of Observations")
@@ -44,30 +45,34 @@ def st_petersburg_game(player_bank=100, casino_bank=100000000):
     num_games = 0
 
     if strategy == 'p':
-    	while player_bank >  0 and casino_bank > 0:
-    		game = input("Play? [y]/[n]")
-    		if game == 'y':
-        		player_bank += st_petersburg(price)[1]
-        		casino_bank -= st_petersburg(price)[1]
-        		num_games +=1
-        		print(f"Player bank: {player_bank} \nCasinoBank: {casino_bank} \nGames: {num_games}")
+        while player_bank >  0 and casino_bank > 0:
+            game = input("Play? [y]/[n]")
+            if game == 'y':
+                diff = st_petersburg(price)[1]
+                player_bank += diff
+                casino_bank -= diff
+                num_games +=1
+                print(f"Player bank: {player_bank} \nCasinoBank: {casino_bank} \nGames: {num_games}")
+            elif game == 'n':
+                break
     elif strategy == 'r':
         while player_bank > 0 and casino_bank > 0:
-        	player_bank += st_petersburg(price)[1]
-        	casino_bank -= st_petersburg(price)[1]
-        	num_games += 1
+            diff = st_petersburg(price)[1]
+            player_bank += diff
+            casino_bank -= diff
+            num_games += 1
 
     if player_bank <= 0:
         print(f"You are bankrupt after {num_games} games!")
     if casino_bank <= 0:
-    	print(f"You broke the casino after {num_games} games!\nYou won {player_bank - price}!")
+        print(f"You broke the casino after {num_games} games!\nYou won {player_bank - price}!")
 
 # Prompt user to see a demo or play a game
 def choose_adventure():
     choice = input("Choose: Game [g] or Simulation [s]? ")
     if choice == 'g':
-    	st_petersburg_game()
+        st_petersburg_game()
     elif choice == 's':
-    	st_petersburg_simulation()
+        st_petersburg_simulation()
 
 choose_adventure()
